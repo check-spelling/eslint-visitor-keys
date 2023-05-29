@@ -61,7 +61,7 @@ const commentTypes = new Set([
 /**
  * Get the literal names out of AST
  * @param {Node} excludedItem Excluded node
- * @returns {string[]} The literal names
+ * @return {string[]} The literal names
  */
 function findOmitTypes(excludedItem) {
     if (excludedItem.type === "TSUnionType") {
@@ -74,7 +74,7 @@ function findOmitTypes(excludedItem) {
  * Checks whether property should be excluded
  * @param {string} property Property to check
  * @param {string[]} excludedProperties Properties not to allow
- * @returns {boolean} Whether or not to be excluded
+ * @return {boolean} Whether or not to be excluded
  */
 function isPropertyExcluded(property, excludedProperties) {
     return excludedProperties && excludedProperties.includes(property);
@@ -87,7 +87,7 @@ function isPropertyExcluded(property, excludedProperties) {
 /**
  * Returns alphabetized keys
  * @param {KeysStrict} initialNodes Initial node list to sort
- * @returns {KeysStrict} The keys
+ * @return {KeysStrict} The keys
  */
 function alphabetizeKeyInterfaces(initialNodes) {
 
@@ -95,7 +95,7 @@ function alphabetizeKeyInterfaces(initialNodes) {
      * Alphabetize
      * @param {string} typeA The first type to compare
      * @param {string} typeB The second type to compare
-     * @returns {1|-1} The sorting index
+     * @return {1|-1} The sorting index
      */
     function alphabetize([typeA], [typeB]) {
         return typeA < typeB ? -1 : 1;
@@ -105,7 +105,7 @@ function alphabetizeKeyInterfaces(initialNodes) {
     /**
      * Get the key sorter for a given type
      * @param {string} type The type
-     * @returns {(string, string) => -1|1} The sorter
+     * @return {(string, string) => -1|1} The sorter
      */
     function getKeySorter(type) {
         const sequence = KEYS[type];
@@ -114,7 +114,7 @@ function alphabetizeKeyInterfaces(initialNodes) {
          * Alphabetize
          * @param {string} typeA The first type to compare
          * @param {string} typeB The second type to compare
-         * @returns {1|-1} The sorting index
+         * @return {1|-1} The sorting index
          */
         return function sortKeys(typeA, typeB) {
             if (!sequence) {
@@ -149,7 +149,7 @@ function alphabetizeKeyInterfaces(initialNodes) {
  * Traverse interface `extends`
  * @param {Node} declNode The TS declaration node
  * @param {Function} handler The callback
- * @returns {any[]} Return value of handler
+ * @return {any[]} Return value of handler
  */
 function traverseExtends(declNode, handler) {
     const ret = [];
@@ -184,7 +184,7 @@ function traverseExtends(declNode, handler) {
  * Traverse the properties of a declaration node.
  * @param {Node} tsDeclarationNode The declaration node
  * @param {(string) => void} handler Passed the property
- * @returns {any[]} The return values of the callback
+ * @return {any[]} The return values of the callback
  */
 function traverseProperties(tsDeclarationNode, handler) {
     const tsPropertySignatures = tsDeclarationNode.body.body;
@@ -208,7 +208,7 @@ function traverseProperties(tsDeclarationNode, handler) {
  * Builds visitor keys based on TypeScript declaration.
  * @param {string} code TypeScript declaration file as code to parse.
  * @param {{supplementaryDeclarations: Node[]}} [options] The options
- * @returns {VisitorKeysExport} The built visitor keys
+ * @return {VisitorKeysExport} The built visitor keys
  */
 function getKeysFromTs(code, {
 
@@ -262,7 +262,7 @@ function getKeysFromTs(code, {
     /**
      * Finds a TypeScript interaction declaration.
      * @param {string} interfaceName The type name.
-     * @returns {Node} The interface declaration node
+     * @return {Node} The interface declaration node
      */
     function findTsInterfaceDeclaration(interfaceName) {
         return allTsInterfaceDeclarations.find(
@@ -273,7 +273,7 @@ function getKeysFromTs(code, {
     /**
      * Finds a TypeScript type declaration.
      * @param {string} typeName A type name
-     * @returns {Node} The type declaration node
+     * @return {Node} The type declaration node
      */
     function findTsTypeDeclaration(typeName) {
         return tsTypeDeclarations.find(typeDecl => typeDecl.id.name === typeName);
@@ -284,7 +284,7 @@ function getKeysFromTs(code, {
      * @param {object} cfg Config object
      * @param {string} cfg.property The property name
      * @param {Node} cfg.tsAnnotation The annotation node
-     * @returns {boolean} Whether has a traverseable type
+     * @return {boolean} Whether has a traverseable type
      */
     function hasValidType({ property, tsAnnotation }) {
         const tsPropertyType = tsAnnotation.type;
@@ -315,7 +315,7 @@ function getKeysFromTs(code, {
     /**
      * Whether the interface has a valid type ancestor
      * @param {string} interfaceName The interface to check
-     * @returns {void}
+     * @return {void}
      */
     function hasValidTypeAncestor(interfaceName) {
         let decl = findTsInterfaceDeclaration(interfaceName);
@@ -370,7 +370,7 @@ function getKeysFromTs(code, {
      * Determine whether the Node is traversable
      * @param {Node} annotationType The annotation type Node
      * @param {string} property The property name
-     * @returns {boolean} Whether the node is traversable
+     * @return {boolean} Whether the node is traversable
      */
     function checkTraversability(annotationType, property) {
         if (
@@ -409,7 +409,7 @@ function getKeysFromTs(code, {
      * @param {Node} tsDeclarationNode TypeScript declaration node
      * @param {Node} node The Node on which to build
      * @param {string[]} excludedProperties Excluded properties
-     * @returns {void}
+     * @return {void}
      */
     function addPropertyToNodeForDeclaration(tsDeclarationNode, node, excludedProperties) {
 
@@ -531,7 +531,7 @@ function getKeysFromTs(code, {
  * Builds visitor keys based on TypeScript declaration.
  * @param {string} file TypeScript declaration file to parse.
  * @param {{supplementaryDeclarations: Object<string, Node[]>}} options The options
- * @returns {Promise<VisitorKeysExport>} The built visitor keys
+ * @return {Promise<VisitorKeysExport>} The built visitor keys
  */
 async function getKeysFromTsFile(file, options) {
     const code = await readFile(file);
